@@ -46,10 +46,9 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 .lock-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8px;text-align:center;}
 .lock-desc{font-size:.8rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:28px;max-width:300px;}
 
-/* Tabs */
 .tabs{display:flex;width:100%;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:24px;border:1px solid rgba(201,168,76,.1);}
 .tab{flex:1;padding:10px;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;
-  font-size:.7rem;letter-spacing:2px;cursor:pointer;border-radius:8px;text-transform:uppercase;transition:all .2s;}
+  font-size:.7rem;letter-spacing:1px;cursor:pointer;border-radius:8px;text-transform:uppercase;transition:all .2s;}
 .tab.active{background:var(--surface2);color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.3);}
 
 .tab-content{display:none;width:100%;flex-direction:column;align-items:center;}
@@ -67,6 +66,7 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
   color:#0A0A0F;font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;
   letter-spacing:2px;cursor:pointer;transition:all .25s;text-transform:uppercase;margin-top:4px;}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35);}
+.btn-gold:disabled{opacity:.5;transform:none;cursor:not-allowed;}
 
 .btn-outline{width:100%;padding:14px;border:1px solid rgba(201,168,76,.35);border-radius:12px;
   background:transparent;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.85rem;
@@ -92,8 +92,10 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 
 /* APP */
 #app{background:var(--bg);}
-.app-header{padding:16px 24px 12px;background:rgba(8,8,16,.95);border-bottom:1px solid rgba(201,168,76,.1);
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.app-header{padding:16px 24px 12px;background:rgba(8,8,16,.95);
+  border-bottom:1px solid rgba(201,168,76,.1);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;}
 .app-brand{font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:4px;
   background:linear-gradient(135deg,var(--gold-light),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;}
@@ -115,7 +117,6 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 .progress-label{font-size:.65rem;color:var(--muted);white-space:nowrap;letter-spacing:1px;}
 .reset-link{font-size:.6rem;color:var(--gold);opacity:.6;cursor:pointer;letter-spacing:1px;background:none;border:none;text-decoration:underline;}
 
-/* GRILLE RESPONSIVE */
 .cards-grid{display:grid;gap:12px;grid-template-columns:1fr;}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr);gap:14px;}}
 @media(min-width:768px){.cards-grid{grid-template-columns:repeat(3,1fr);gap:18px;}}
@@ -191,25 +192,22 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
     <h2 class="lock-title">Accès réservé</h2>
     <p class="lock-desc">Espace réservé aux consultantes Chogan autorisées.</p>
 
-    <!-- TABS -->
     <div class="tabs">
       <button class="tab active" onclick="switchTab('demande')">✉ Demander l'accès</button>
       <button class="tab" onclick="switchTab('code')">🔑 J'ai mon code</button>
     </div>
 
-    <!-- TAB 1 : DEMANDE -->
     <div class="tab-content active" id="tab-demande">
-      <div class="field"><input type="text" id="inp-prenom" placeholder="Votre prénom" autocomplete="given-name"></div>
-      <div class="field"><input type="text" id="inp-nom" placeholder="Votre nom" autocomplete="family-name"></div>
-      <div class="field"><input type="email" id="inp-email" placeholder="Votre adresse email" autocomplete="email"></div>
+      <div class="field"><input type="text" id="inp-prenom" placeholder="Votre prénom"></div>
+      <div class="field"><input type="text" id="inp-nom" placeholder="Votre nom de famille"></div>
+      <div class="field"><input type="email" id="inp-email" placeholder="Votre adresse email"></div>
       <button class="btn-gold" id="btn-send" onclick="envoyerDemande()">✉ ENVOYER MA DEMANDE</button>
       <div class="msg" id="msg-demande"></div>
     </div>
 
-    <!-- TAB 2 : CODE -->
     <div class="tab-content" id="tab-code">
       <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;">
-        Entrez le code que vous avez reçu de votre administratrice.
+        Entrez le code reçu de votre administratrice.
       </p>
       <div class="field"><input type="text" id="inp-code" placeholder="VOTRE CODE" class="code-input" maxlength="12" oninput="this.value=this.value.toUpperCase()"></div>
       <button class="btn-gold" onclick="validerCode()">DÉBLOQUER →</button>
@@ -223,9 +221,9 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
   <div class="success-inner">
     <div class="success-icon">✅</div>
     <h2 class="success-title">Demande envoyée !</h2>
-    <p class="success-desc">Votre administratrice a reçu votre demande sur son Gmail. Elle vous contactera avec votre code d'accès.</p>
+    <p class="success-desc">Votre administratrice a reçu votre demande. Elle vous contactera avec votre code d'accès dès validation.</p>
     <div class="success-box">
-      <p>📱 Dès que vous recevez votre code, revenez sur cette page et cliquez sur <strong>"J'ai mon code"</strong> pour accéder à l'application.</p>
+      <p>📱 Dès réception de votre code, revenez ici et cliquez <strong>"J'ai mon code"</strong>.</p>
     </div>
     <button class="btn-outline" onclick="show('lock');switchTab('code')">🔑 Entrer mon code</button>
   </div>
@@ -254,13 +252,9 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════
-//  CONFIGURATION — modifiez ici
-// ══════════════════════════════════════
-const ADMIN_EMAIL = "ouadi.nej@gmail.com";   // Votre Gmail
-const ACCESS_CODE = "CHOGAN2025";             // Code à envoyer aux consultantes
-const FORMSUBMIT_ID = "ouadi.nej@gmail.com"; // Même email pour Formsubmit
-// ══════════════════════════════════════
+const W3F_KEY   = "eedbc8ee-c8ab-4c5b-a04a-db28b4e472e3";
+const ADM_EMAIL = "ouadi.nej@gmail.com";
+const ACC_CODE  = "CHOGAN2025";
 
 const CARDS = [
   {n:"01",cat:"Prix",       q:"C'est trop cher pour moi.",            a:"C'est un extrait à 30%. Un flacon 100ml dure 4 mois : moins de 25 cts par jour pour l'excellence italienne."},
@@ -287,7 +281,6 @@ const CARDS = [
 
 const KEY = 'cg_auth_v1';
 let flipped = new Set();
-
 function isAuth(){return localStorage.getItem(KEY)==='true';}
 function setAuth(){localStorage.setItem(KEY,'true');}
 function clearAuth(){localStorage.removeItem(KEY);}
@@ -312,7 +305,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   },2000);
 });
 
-// ══ ENVOI DEMANDE via Formsubmit ══
 async function envoyerDemande(){
   const prenom = document.getElementById('inp-prenom').value.trim();
   const nom    = document.getElementById('inp-nom').value.trim();
@@ -321,63 +313,53 @@ async function envoyerDemande(){
   const btn    = document.getElementById('btn-send');
 
   if(!prenom||!nom){showMsg(msg,'error','Veuillez renseigner votre prénom et nom.');return;}
-  if(!email||!email.includes('@')){showMsg(msg,'error','Veuillez entrer une adresse email valide.');return;}
+  if(!email||!email.includes('@')){showMsg(msg,'error','Adresse email invalide.');return;}
 
   btn.disabled=true;
   btn.textContent='Envoi en cours...';
   showMsg(msg,'info','Envoi de votre demande...');
 
   try{
-    const formData = new FormData();
-    formData.append('_subject', '🔔 Nouvelle demande accès Coach Chogan');
-    formData.append('_template', 'table');
-    formData.append('_captcha', 'false');
-    formData.append('Prénom', prenom);
-    formData.append('Nom', nom);
-    formData.append('Email', email);
-    formData.append('Message', 'Nouvelle demande d\'accès à l\'application Coach Objections Chogan. CODE À ENVOYER : '+ACCESS_CODE);
-
-    const res = await fetch('https://formsubmit.co/ajax/'+FORMSUBMIT_ID, {
+    const res = await fetch('https://api.web3forms.com/submit',{
       method:'POST',
-      headers:{'Accept':'application/json'},
-      body: formData
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        access_key : W3F_KEY,
+        subject    : '🔔 Demande accès Coach Chogan — '+prenom+' '+nom,
+        from_name  : prenom+' '+nom,
+        email      : ADM_EMAIL,
+        replyto    : email,
+        message    : 'Prénom : '+prenom+'\nNom : '+nom+'\nEmail : '+email+'\n\n✅ CODE À ENVOYER : '+ACC_CODE
+      })
     });
     const data = await res.json();
-
-    if(data.success==='true'||data.success===true){
+    if(data.success){
       show('success');
     } else {
-      throw new Error('Réponse invalide');
+      throw new Error(data.message||'Erreur');
     }
-  }catch(err){
-    // Fallback : ouvrir l'app mail
-    const sujet = encodeURIComponent('Demande accès Coach Chogan - '+prenom+' '+nom);
-    const corps = encodeURIComponent('Bonjour,\n\nNouvelle demande d\'accès à l\'application Coach Objections.\n\nPrénom : '+prenom+'\nNom : '+nom+'\nEmail : '+email+'\n\nCODE À ENVOYER : '+ACCESS_CODE+'\n\nEnvoyez ce code si vous l\'autorisez.');
-    window.location.href='mailto:'+ADMIN_EMAIL+'?subject='+sujet+'&body='+corps;
-    setTimeout(()=>show('success'),1500);
+  } catch(err){
+    showMsg(msg,'error','Erreur : '+err.message+'. Contactez votre administratrice directement.');
+    btn.disabled=false;
+    btn.textContent='✉ ENVOYER MA DEMANDE';
   }
-
-  btn.disabled=false;
-  btn.textContent='✉ ENVOYER MA DEMANDE';
 }
 
-// ══ VALIDATION CODE ══
 function validerCode(){
   const code = document.getElementById('inp-code').value.trim().toUpperCase();
   const msg  = document.getElementById('msg-code');
   if(!code){showMsg(msg,'error','Entrez votre code d\'accès.');return;}
-  if(code===ACCESS_CODE.toUpperCase()){
+  if(code===ACC_CODE){
     showMsg(msg,'success','✓ Code valide ! Accès autorisé.');
     setAuth();
     setTimeout(()=>{buildCards();show('app');},800);
-  }else{
+  } else {
     showMsg(msg,'error','Code incorrect. Vérifiez avec votre administratrice.');
   }
 }
 
-function logout(){if(confirm('Quitter l\'application ?')){clearAuth();show('lock');}}
+function logout(){if(confirm('Quitter ?')){clearAuth();show('lock');}}
 
-// ══ CARTES ══
 function buildCards(){
   flipped.clear();updateProgress();
   const grid=document.getElementById('cards-grid');
@@ -424,7 +406,7 @@ function resetCards(){
 }
 
 function showMsg(el,type,text){el.textContent=text;el.className='msg '+type;el.style.display='block';}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 </script>
 </body>
 </html>
