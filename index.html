@@ -279,7 +279,6 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
 // ╔══════════════════════════════════════════╗
 // ║         CONFIGURATION ADMIN             ║
@@ -287,9 +286,6 @@ body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans
 const CFG = {
   ACCESS_CODE : "CHOGAN2025",
   ADMIN_EMAIL : "ouadi.nej@gmail.com",
-  EMAILJS_PK  : "ZwpqdjRsBVvKsgiL-",
-  EMAILJS_SVC : "service_0vc1ymo",
-  EMAILJS_TPL : "2461dt7",
 };
 
 // OBJECTIONS
@@ -329,40 +325,22 @@ function show(id){
 
 window.addEventListener('DOMContentLoaded',()=>{
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-  emailjs.init(CFG.EMAILJS_PK);
   setTimeout(()=>{
     if(isAuth()){buildCards();show('app');}
     else show('lock');
   },2000);
 });
 
-async function requestAccess(){
-  const name  = document.getElementById('inp-name').value.trim();
+function requestAccess(){
+  const name = document.getElementById('inp-name').value.trim();
   const email = document.getElementById('inp-email').value.trim();
-  const btn   = document.getElementById('btn-request');
-  const msg   = document.getElementById('msg-request');
+  const msg = document.getElementById('msg-request');
   if(!name||!email){showMsg(msg,'error','Remplissez votre prénom et votre email.');return;}
   if(!email.includes('@')){showMsg(msg,'error','Email invalide.');return;}
-  btn.disabled=true;
-  btn.textContent='Envoi en cours...';
-  showMsg(msg,'info','Envoi en cours...');
-  try{
-    await emailjs.send(CFG.EMAILJS_SVC, CFG.EMAILJS_TPL,{
-      nom        : name,
-      temps      : new Date().toLocaleString('fr-FR'),
-      message    : 'Demande acces de '+name+' ('+email+'). CODE A ENVOYER : '+CFG.ACCESS_CODE,
-      from_name  : name,
-      from_email : email,
-      to_email   : CFG.ADMIN_EMAIL,
-      access_code: CFG.ACCESS_CODE,
-    });
-    show('success');
-  }catch(err){
-    console.error('EmailJS error:',err);
-    showMsg(msg,'error','Erreur envoi ('+JSON.stringify(err.text||err)+')');
-    btn.disabled=false;
-    btn.textContent='✉ DEMANDER L\'ACCÈS';
-  }
+  const sujet = encodeURIComponent('Demande acces Coach Chogan - ' + name);
+  const corps = encodeURIComponent('Bonjour,\n\nJe souhaite acceder a l application Coach Objections Chogan.\n\nPrenom : ' + name + '\nEmail : ' + email + '\n\nMerci de m envoyer le code d acces si vous m autorisez.\n\n- ' + name);
+  window.location.href = 'mailto:' + CFG.ADMIN_EMAIL + '?subject=' + sujet + '&body=' + corps;
+  setTimeout(()=>{ show('success'); }, 1500);
 }
 
 function submitCode(){validateCode('inp-code','msg-code');}
